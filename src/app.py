@@ -1,12 +1,9 @@
-from flask import Flask, render_template
 from setup import app
+from controllers.matches_controller import matches_blueprint
+from controllers.general_controller import general_blueprint
 
-
-@app.route("/")
-@app.route("/home")
-def home():
-    return render_template("home.html")
-
+app.register_blueprint(matches_blueprint, url_prefix="/matches")
+app.register_blueprint(general_blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)
