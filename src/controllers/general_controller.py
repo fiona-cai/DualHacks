@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 general_blueprint = Blueprint("general", __name__)
 
@@ -8,15 +8,21 @@ general_blueprint = Blueprint("general", __name__)
 def home():
     return render_template("home.html")
 
+
 @general_blueprint.route("/login/", methods=["POST","GET"])
 def login():
-    return render_template("login.html")
+    if request.methods == "POST":
+        user = request.form[""]
+    else:
+        return render_template("login.html")
 
-@general_blueprint.route("/<usr>")
-def user(usr):
-    return f'<h1>{usr}</h1>'
 
-@general_blueprint.route("/signup/")
+@general_blueprint.route("/user/<username>/profile", methods=["GET"])
+def user():
+    return render_template("profile.html")
+
+
+@general_blueprint.route("/signup/", methods=["POST"])
 def signup():
     return render_template("signup.html")
 
