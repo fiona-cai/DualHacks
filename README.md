@@ -1,1 +1,1 @@
-# Our Project Submitted to DualHacks 2023
+# Our Web-App Submitted to DualHacks 2023
