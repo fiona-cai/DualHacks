@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 
 general_blueprint = Blueprint("general", __name__)
 
@@ -9,26 +9,43 @@ def home():
     return render_template("home.html")
 
 
-@general_blueprint.route("/login/", methods=["POST","GET"])
+@general_blueprint.route("/login/", methods=["POST", "GET"])
 def login():
-    if request.methods == "POST":
-        user = request.form[""]
-        return redirect(url_for("user", usr=user))
-    else:
+    if request.method == "GET":
         return render_template("login.html")
 
+    # Reached by POST
+    username = request.form["username"]
+    password = request.form["password"]
 
-@general_blueprint.route("/user/<username>/profile", methods=["GET"])
+    # get the user with username, if does not exist return back to login.html with an error message
+    # check password, if wrong password return back to the login.html with an error message
+
+    # basically setting cookies
+    session["username"] = username
+
+    return redirect("/")
+
+
+@general_blueprint.route("/users/<username>/profile")
 def profile():
+    # get the user data with username
+    # pass the user object as part of the render_template
+
     return render_template("profile.html")
 
 
-@general_blueprint.route("/signup/", methods=["POST"])
+@general_blueprint.route("/signup/", methods=["GET", "POST"])
 def signup():
-    return render_template("signup.html")
+    if request.method == "GET":
+        return render_template("signup.html")
 
+    # Reached by POST
 
-@general_blueprint.route("/<usr>")
-def user(usr):
-    return f"<h1>{usr}</h1>"
+    # check username doesn't already exist
 
+    # check if all information are provided
+
+    # send an email
+
+    # redirect to login with a message that a confirmation email has been sent
