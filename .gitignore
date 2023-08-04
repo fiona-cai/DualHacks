@@ -3,3 +3,4 @@ secret-key.txt
 private_data
 __pycache__
 .DS_Store
+session
