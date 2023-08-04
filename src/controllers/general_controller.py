@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
+import database.users_db_manager as users_db
 
 general_blueprint = Blueprint("general", __name__)
 
