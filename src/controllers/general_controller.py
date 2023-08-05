@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 import database.users_db_manager as users_db
 
+
 general_blueprint = Blueprint("general", __name__)
 
 
@@ -20,8 +21,17 @@ def login():
     password = request.form["password"]
 
     # get the user with username, if does not exist return back to login.html with an error message
-    # check password, if wrong password return back to the login.html with an error message
+    # check password, if wrong return back to login.html with an error message
+    checkUser = users_db.get_user_by_username(request.form["username"])
+    checkPassword = users_db.get_user_by_username(request.form["password"])
+    if checkUser == request.form["username"] and checkPassword == request.form["password"]:
+        return redirect("home.html")
 
+    elif checkUser == None or checkPassword == None:
+        return redirect("login.html")
+        # add error message with flask flashes
+    
+    
     # basically setting cookies
     session["username"] = username
 
@@ -31,6 +41,7 @@ def login():
 @general_blueprint.route("/users/<username>/profile")
 def profile():
     # get the user data with username
+
     # pass the user object as part of the render_template
 
     return render_template("profile.html")
