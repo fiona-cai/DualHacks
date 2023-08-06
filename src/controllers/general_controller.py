@@ -3,7 +3,6 @@ from flask_mail import Mail, Message
 
 import database.users_db_manager as users_db
 
-
 general_blueprint = Blueprint("general", __name__)
 
 
@@ -22,12 +21,14 @@ def login():
     username = request.form["username"]
     password = request.form["password"]
 
-    user = users_db.get_user_by_username(request.form["username"])  # get_user_by_username will not check anything it will return a user object
+    user = users_db.get_user_by_username(
+        request.form["username"])  # get_user_by_username will not check anything it will return a user object
     # you are garanteed that the returned user will have that username so you don't need to check it (its called get by username)
 
     # get the user with username, if does not exist return back to login.html with an error message
-    if user is None: # == None would do the same thing
-        flash("The username you have entered does not exist, please try again.", "warning")  # change this rendering login but with the "username does not exist message"
+    if user is None:  # == None would do the same thing
+        flash("The username you have entered does not exist, please try again.",
+              "warning")  # change this rendering login but with the "username does not exist message"
         return redirect("/")
 
     # check password, if wrong return back to login.html with an error message
@@ -38,7 +39,7 @@ def login():
         # add error message with flask flashes
 
     # we get to this point of code if the username exists and if the password is correct
-    
+
     # basically setting cookies
     session["username"] = username
 
@@ -50,7 +51,7 @@ def profile(username):
     # get the user data with username
     userInfo = users_db.get_user_by_username(username)
     # pass the user object as part of the render_template
-    return render_template("profile.html", userInfo = userInfo)
+    return render_template("profile.html", userInfo=userInfo)
 
 
 @general_blueprint.route("/signup/", methods=["GET", "POST"])
@@ -64,19 +65,15 @@ def signup():
 
     # check username doesn't already exist
     usernameSignup = users_db.get_user_by_username(request.form["username"])
-    if usernameSignup is None: # == None would do the same thing
-        pass
-    else:
-        flash("The username you have entered already exist, please enter another usename.", "warning") 
+    if usernameSignup:  # this would mean that user is not None
+        flash("The username you have entered already exist, please enter another username.", "warning")
+        # return the user back to the
 
     # check if all information are provided
 
     # send an email
     # get their email
 
-
-
     # redirect to login with a message that a confirmation email has been sent
     flash("A confirmation email has been sent, please check your inbox.", "info")
     return redirect("login.html")
-
