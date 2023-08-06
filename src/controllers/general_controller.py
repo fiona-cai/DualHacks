@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from flask_mail import Mail
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, session, flash
+from flask_mail import Mail, Message
 
 import database.users_db_manager as users_db
 
@@ -48,7 +48,7 @@ def login():
 @general_blueprint.route("/users/<username>/profile")
 def profile():
     # get the user data with username
-    userInfo = users_db.get_users_with_name() 
+    userInfo = users_db.get_user_by_username("username") 
     # pass the user object as part of the render_template
     return render_template("profile.html", userInfo = userInfo)
 
