@@ -46,9 +46,9 @@ def login():
 
 
 @general_blueprint.route("/users/<username>/profile")
-def profile():
+def profile(username):
     # get the user data with username
-    userInfo = users_db.get_user_by_username("username") 
+    userInfo = users_db.get_user_by_username(username)
     # pass the user object as part of the render_template
     return render_template("profile.html", userInfo = userInfo)
 
