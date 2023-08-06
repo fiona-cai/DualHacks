@@ -35,4 +35,9 @@ def add_player_to_match(match_id, player):
 
 
 def add_to_available_match(player):
+    """
+    return None if there is no available game to join
+    :param player:
+    :return:
+    """
     pass
