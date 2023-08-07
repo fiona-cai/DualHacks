@@ -6,4 +6,4 @@ app.register_blueprint(matches_blueprint, url_prefix="/matches")
 app.register_blueprint(general_blueprint)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
