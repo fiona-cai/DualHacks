@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="theme-color" content="#0d6efd">
+        <meta name="theme-color" content="#6ffa6c">
 
         <link href="/static/styles/bootstrap.min.css" rel="stylesheet">
         <link href="/static/styles/style.css" rel="stylesheet">
@@ -22,55 +22,7 @@
 
     </head>
     <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">{{ CLUB_NAME }}</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbar" aria-controls="navbarText" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbar" data-active="{% block active %}{% endblock %}">
-                    {% if session.user_id %}
-                        <ul class="navbar-nav me-auto">
-                            <li><a class="nav-link" href="/ranking">Ranking</a></li>
-                            <li><a class="nav-link" href="/problems">Practice</a></li>
-                            <li><a class="nav-link" href="/contests">Contests</a></li>
-                            <li><a class="nav-link" href="/info">Info</a></li>
-                            <li><a class="nav-link" href="/sponsors">Sponsors</a></li>
-                            {% if session.admin %}
-                                <li><a class="nav-link" href="/admin/console">Admin Console</a></li>
-                            {% endif %}
-                        </ul>
-                        <ul class="navbar-nav">
-                            <div class="form-check form-switch nav-link">
-                                <input class="form-check-input dark-toggle"
-                                       type="checkbox">
-                            </div>
-                            <li class="nav-link white">Welcome, {{ session.username }}</li>
-                            <li><a class="nav-link" href="/users/{{ session.username }}/profile">Profile</a></li>
-                            <li><a class="nav-link" href="/settings">Settings</a></li>
-                            <li><a class="nav-link" href="/logout">Log Out</a></li>
-                        </ul>
-                    {% else %}
-                        <ul class="navbar-nav me-auto">
-                            <li><a class="nav-link" href="/ranking">Ranking</a></li>
-                            <li><a class="nav-link" href="/problems">Practice</a></li>
-                            <li><a class="nav-link" href="/contests">Contests</a></li>
-                            <li><a class="nav-link" href="/info">Info</a></li>
-                            <li><a class="nav-link" href="/sponsors">Sponsors</a></li>
-                            </ul>
-                            <ul class="navbar-nav">
-                                <div class="form-check form-switch nav-link">
-                                    <input class="form-check-input dark-toggle"
-                                       type="checkbox">
-                            </div>
-                            <li><a class="nav-link" href="/login">Log In</a></li>
-                        </ul>
-                    {% endif %}
-                </div>
-            </div>
-        </nav>
+       
 
         <main class="container">
             {% with msg = get_flashed_messages(with_categories=True) %}
