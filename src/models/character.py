@@ -12,3 +12,6 @@ class Character(BaseModel):
 
     def setup_powers(self):
         self.powers = [Power(**power) for power in self.powers]
+
+    def dict_powers(self):
+        self.powers = [power.__dict__ for power in self.powers]

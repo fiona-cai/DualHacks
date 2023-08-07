@@ -1,4 +1,8 @@
+from firebase_admin import firestore
+from google.cloud.firestore_v1 import FieldFilter
+
 from models.question import Question
+from database.firestore_setup import cred, firestore_app
 
 
 def get_question_by_id(question_id):
@@ -7,7 +11,14 @@ def get_question_by_id(question_id):
     :param question_id:
     :return:
     """
-    pass
+    global db
+
+    result = db.collection("questions").document(str(question_id))
+    loaded_user = result.get()
+    if not loaded_user.exists:
+        return None
+
+    return Question(**(loaded_user.to_dict()))
 
 
 def get_questions_by_subject_and_difficulty(subject, difficulty):
@@ -17,7 +28,13 @@ def get_questions_by_subject_and_difficulty(subject, difficulty):
     :param subject:
     :return:
     """
-    pass
+    global db
+
+    results = list(db.collection("questions").where(filter=FieldFilter("subject", "==", subject)).where(
+        filter=FieldFilter("difficulty", "==", difficulty)).stream())
+
+    questions = [Question(**result.to_dict()) for result in results]
+    return questions
 
 
 def add_question(question):
@@ -27,7 +44,10 @@ def add_question(question):
     :param question:
     :return:
     """
-    pass
+    global db
+
+    doc_ref = db.collection("questions").document(question.question_id)
+    doc_ref.set(question.__dict__)
 
 
 def delete_question(question):
@@ -37,7 +57,10 @@ def delete_question(question):
     :param question:
     :return:
     """
-    pass
+    global db
+
+    doc_ref = db.collection("questions").document(question.question_id)
+    doc_ref.delete()
 
 
 def delete_question_by_id(question_id):
@@ -47,4 +70,10 @@ def delete_question_by_id(question_id):
     :param question_id:
     :return:
     """
-    pass
+    global db
+
+    doc_ref = db.collection("questions").document(question_id)
+    doc_ref.delete()
+
+
+db = firestore.client()

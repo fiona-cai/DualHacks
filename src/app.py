@@ -8,5 +8,3 @@ app.register_blueprint(general_blueprint)
 
 if __name__ == '__main__':
     server.run_server()
-    while True:
-        time.sleep(1000)
