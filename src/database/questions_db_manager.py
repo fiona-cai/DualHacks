@@ -77,3 +77,22 @@ def delete_question_by_id(question_id):
 
 
 db = firestore.client()
+
+if __name__ == '__main__':
+    # question="", answer="", options=[], difficulty=None, subject="", question_id=""
+    question_prompt = ""
+    answer = ""
+    options = [
+        "",
+        "",
+        "",
+        ""
+    ]
+    difficulty = 0  # should be 1, 2, or 3
+    subject = ""
+    question_id = 1 # add one to this everytime you run
+
+    question = Question(question_prompt, answer, options, difficulty, subject, question_id)
+    add_question(question)
+    # I think that should be it
+
