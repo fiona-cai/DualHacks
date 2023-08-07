@@ -42,8 +42,7 @@ class Server:
             return self.state
 
         # if we don't have sockets
-        self.server_thread = threading.Thread(target=self.server.run, args=(self.server, self.ip, self.port))
-        self.server_thread.start()
+        self.server.run(self.ip, self.port)
         return self.state
 
     def send_all(self, msg):
