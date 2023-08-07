@@ -29,9 +29,9 @@ os.makedirs(SESSION_FILE_DIR, 0o770, True)
 MAIL_SERVER = "smtp.gmail.com"
 MAIL_PORT = 587
 MAIL_USE_TLS = True
-MAIL_USERNAME = ""
+MAIL_USERNAME = "dualhacks2023@gmail.com"
 MAIL_PASSWORD = get_email_pass()
-MAIL_DEFAULT_SENDER = ("", "")
+MAIL_DEFAULT_SENDER = ("Dual Hacks Participants", "dualhacks2023@gmail.com")
 
 # Configure your hcaptcha settings here
 USE_CAPTCHA = False
