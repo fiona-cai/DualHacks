@@ -7,4 +7,5 @@ app.register_blueprint(matches_blueprint, url_prefix="/matches")
 app.register_blueprint(general_blueprint)
 
 if __name__ == '__main__':
+    app.debug = True
     server.run_server()
