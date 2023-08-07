@@ -1,5 +1,88 @@
-<--! username  -->
-<--! name -->
-<--! last name -->
-<--! email -->
-<--! password -->
+{% extends "layout.html" %}
+
+{% block title %}Sign Up{% endblock %}
+{% block active %}Sign Up{% endblock %}
+
+{% block main %}
+<h1 class="text-center">Sign Up</h1>
+<form method="post">
+    <input autocomplete="off"
+           autofocus class="form-control mb-3"
+           name="username"
+           placeholder="Username"
+           required>
+    <input autocomplete="off"
+           autofocus class="form-control mb-3"
+           name="name"
+           placeholder="First Name"
+           required>
+    <input autocomplete="off"
+           autofocus class="form-control mb-3"
+           name="lastname"
+           placeholder="Last Name"
+           required>
+    <input class="form-control mb-3"
+           name="email"
+           placeholder="Email Address"
+           type="email"
+           required>
+    <input class="form-control mb-3"
+           name="password"
+           id="password"
+           placeholder="Password"
+           type="password"
+           autocomplete="new-password"
+           required>
+    <input class="form-control mb-3"
+           name="confirmation"
+           id="confirmation"
+           placeholder="Confirmation"
+           type="password"
+           autocomplete="new-password"
+           required>
+    <button class="btn btn-primary" type="submit">Register</button>
+    {% if USE_CAPTCHA %}
+        <script src="https://hcaptcha.com/1/api.js" async defer></script>
+        <hr>
+        <div class="h-captcha" data-sitekey= {{ site_key }} ></div>
+    {% endif %}
+</form>
+<br>
+<p style="margin-top: 8px;">
+    Your username can only contain alphanumeric characters, dashes, and underscores.
+    Your password must be at least 8 characters long. Although they are stored with industry-grade
+    encryption and nobody can see them even if they gain access to the users database, we strongly
+    recommend you not to use a password you use elsewhere.<br><br>
+    You must provide a valid email account to register on our site. By registering, you acknowledge
+    that you have read our <a href="/privacy">privacy policy</a> and agree to abide by our
+    <a href="/terms">terms of service</a>.
+</p>
+{% endblock %}
+{% block script %}
+<script>
+    const newPassword = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmation");
+    document.querySelector("form").addEventListener("submit", event => {
+        if (newPassword.value != confirmPassword.value) {
+            makeAlert("Passwords do not match");
+            event.preventDefault();
+        }
+        if (newPassword.value.length < 8) {
+            makeAlert("Password must be at least 8 characters");
+            event.preventDefault();
+        }
+    });
+
+    function makeAlert(message) {
+        var tmp = document.createElement('div');
+        tmp.innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                             ${message}
+                             <button type="button"
+                                     class="btn-close"
+                                     data-bs-dismiss="alert"
+                                     aria-label="Close"></button>
+                         </div>`;
+        document.querySelector("main").prepend(tmp.firstChild);
+    }
+</script>
+{% endblock %}
