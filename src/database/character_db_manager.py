@@ -30,25 +30,26 @@ if __name__ == '__main__':
         {
             "damage": 1,
             "difficulty": 1,
-            "name": ""  # change this
+            "name": "Numerical Eruption"  # change this
         },
         {
             "damage": 2,
             "difficulty": 2,
-            "name": ""  # change this
+            "name": "Algebraic Nova"  # change this
         },
         {
             "damage": 3,
             "difficulty": 3,
-            "name": ""  # change this
+            "name": "Quantum Amplification"  # change this
         }
     ]
 
-    name = ""  # you would need to change this name
+    name = "Evil Math Professor"  # you would need to change this name
     health = 10
-    subject = ""  # change this
-    character = Character(name, powers, f"{name}_image", health, subject)
+    subject = "Math"  # change this
+    character = Character(name, powers, f"{name}_image.png", health, subject)
     create_character(character)
     # yea for each character paste the info then run. then change the info and run again. exactly
     # ok so you need to change the names and subject for each of your characters
     # then run this file (not the app this file)
+    # oh also you gotta add a file to the private data, I'll give you that in a little bit
