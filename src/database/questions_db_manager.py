@@ -10,9 +10,10 @@ def get_question_by_id(question_id):
     pass
 
 
-def get_questions_by_subject(subject):
+def get_questions_by_subject_and_difficulty(subject, difficulty):
     """
     returns empty array if no question with specified subject found
+    :param difficulty:
     :param subject:
     :return:
     """

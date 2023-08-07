@@ -10,7 +10,7 @@ matches_blueprint = Blueprint("matches", __name__)
 @matches_blueprint.route("/quick")
 def quick_match():
     character = character_db.get_character_by_name(session["character"])
-    match_id = match_db.add_to_available_match(Player(session["username"], character, 0))
+    match_id = match_db.add_to_available_match(Player(session["username"], character, 0, None, character.health))
     if not match_id:
         return redirect("matches/create")
     return redirect(f"matches/{match_id}")

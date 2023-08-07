@@ -41,3 +41,7 @@ def add_to_available_match(player):
     :return:
     """
     pass
+
+
+def update_player(match_id, player):
+    pass

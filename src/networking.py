@@ -18,7 +18,7 @@ class Client:
         send(msg, room=self.code)
 
 
-class Sever:
+class Server:
     def __init__(self, ip, port, server, web_socket=None):
         self.ip = ip
         self.port = port
@@ -56,3 +56,8 @@ def get_client_by_code(client_list, code):
         if client.code == code:
             return code
     return False
+
+
+def send(msg, client_id):
+    msg = json.dumps(msg)
+    send(msg, room=client_id)
