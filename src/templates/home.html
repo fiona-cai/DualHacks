@@ -1,5 +1,92 @@
+<<<<<<< HEAD
 <--! join game -->
 <--! quick match -->
 
 <--! login -->
 <--! signup -->
+=======
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+{% block active %}Home{% endblock %}
+
+{% block main %}
+
+
+    
+
+        <img src="/static/images/blob.svg" style="max-width: 200px; position: relative; left: 50%; transform: translateX(-50%)">
+
+        <div class="text-center">
+            <h1 class="text-center">LearnWars</h1>
+            <b class="text-center">Welcome to LearnWars: The Ultimate Game-Based Learning Platform for STEM Subjects!</b>
+        </div>
+
+    
+        <div class="container text-center">
+            <div class="row">
+              <div class="col">
+                <button class="btn btn-primary" onclick="window.location.href = 'login.html';">Login</button>
+              </div>
+              <div class="col">
+                <button class="btn btn-success" onclick="window.location.href = 'signup.html';">Sign Up</button>
+              </div>
+              <div class="col">
+                <button class="btn btn-danger" onclick="window.location.href = 'quickgame.html';">Quick Game</button>
+              </div>
+            </div>
+          </div>
+    
+
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            screenshot of game
+          </div>
+          <div class="col">
+            <h2>Embark on an epic educational adventure like never before!</h2>
+            <p>LearnWars is a thrilling game that combines the excitement of gaming with the power of learning. Designed specifically for middle and high school students, this innovative platform revolutionizes the way you experience science, technology, engineering, and mathematics (STEM) subjects. Get ready to dive into a virtual world where knowledge is your weapon and curiosity is your guide!</p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h2>Interactive Gameplay</h2>
+            <p>Prepare to be captivated by our immersive and interactive gameplay. Put your knowledge to the test as you tackle hands-on challenges inspired by real-world scenarios. Build bridges using engineering principles, unlock the secrets of chemical reactions, dissect virtual organisms, or program a robot to overcome obstacles. The possibilities are endless, and the adventure never stops!
+            </p>
+          </div>
+          <div class="col">
+            screenshot of game
+        </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            screenshot of game
+          </div>
+          <div class="col">
+            <h2>Connect and Compete</h2>
+            <p>Learning is better when shared with friends! Connect with like-minded individuals and form a community of STEM enthusiasts. Collaborate, exchange ideas, and support each other as you navigate the LearnWars universe. Engage in friendly competitions and see who can conquer the most challenging STEM challenges. Fuel your passion for learning through healthy competition!
+            </p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+<br>
+<br>
+      <div class="text-center">
+        <b class="">Are you ready to conquer the world of STEM and become a true champion of knowledge? Let the LearnWars begin!
+        </b>
+  
+          
+      </div>
+      
+{% endblock %}
+>>>>>>> general-controller
