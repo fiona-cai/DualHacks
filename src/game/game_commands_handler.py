@@ -31,6 +31,11 @@ def joining(command, client):
     if match.player_count == 2:
         match.started = True
         match.turn = players[0].username
+        for player in players:
+            for player_sender in players:
+                if player.username != player_sender.username:
+                    character = character_db.get_character_by_name(player.character)
+                    send({"command": {"name": "opponent-character-info", "character": character.__dict__}}, player_sender.client_id)
         [send({"command": {"name": "start"}}, player.client_id) for player in players]
         [send({"command": {"name": "set-turn", "turn": match.turn}}, player.client_id) for player in players]
 
