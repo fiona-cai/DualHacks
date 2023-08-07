@@ -11,6 +11,8 @@ window.turn = true;
 
 window.current_question = null;
 
+window.game_state = "waiting-for-opponent";
+
 
 function send(entry) {
     socket.send(JSON.stringify(entry));
@@ -62,6 +64,14 @@ socket.on('message', function (msg) {
                     break;
             }
             break;
+        case "action":
+            if (command.action === "attack") {
+                if (command.attacking === window.username) {
+                    damage(window.opponent_character, command.damage);
+                } else {
+                    damage(window.player_character, command.damage);
+                }
+            }
     }
 });
 
@@ -89,6 +99,31 @@ function wrong_turn() {
 
 
 function display_question() {
+    for (let i = 0; i < window.current_question.options; i++) {
+        var option_id = i + 1;
+        document.getElementById("option-" + toString(option_id)).textContent = window.current_question.options[i];
+    }
+
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("modal-open");
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
 }
 
 
@@ -130,6 +165,21 @@ function update_health() {
 
 
 function display_timeout() {
+
+}
+
+
+function display_win() {
+
+}
+
+
+function display_lose() {
+
+}
+
+
+function end_game() {
 
 }
 
