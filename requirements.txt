@@ -1,2 +1,4 @@
 flask
 Flask-Mail
+flask-socketio
+firebase-admin

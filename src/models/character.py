@@ -15,3 +15,4 @@ class Character(BaseModel):
 
     def dict_powers(self):
         self.powers = [power.__dict__ for power in self.powers]
+# really?
