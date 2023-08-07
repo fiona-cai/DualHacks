@@ -72,12 +72,22 @@ socket.on('message', function (msg) {
                     damage(window.player_character, command.damage);
                 }
             }
+            break;
+        case "won":
+            display_win();
+            end_game();
+            break;
+        case "lost":
+            display_lose();
+            end_game();
+            break;
     }
 });
 
 
 function start_game() {
-
+    window.game_state = "playing";
+    update_health();
 }
 
 
@@ -94,19 +104,23 @@ function get_questions(difficulty) {
 
 
 function wrong_turn() {
-
+    document.getElementById("message").textContent = "not your turn";
 }
 
 
 function display_question() {
+    document.getElementById("question-prompt").textContent = window.current_question.question;
+
     for (let i = 0; i < window.current_question.options; i++) {
-        var option_id = i + 1;
-        document.getElementById("option-" + toString(option_id)).textContent = window.current_question.options[i];
+        const option_id = i + 1;
+        document.getElementById("option-" + option_id.toString()).value = window.current_question.options[i];
     }
 
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("modal-open");
     var span = document.getElementsByClassName("close")[0];
+
+    // modal.style.display = "block";
 
     // When the user clicks on the button, open the modal
     btn.onclick = function () {
@@ -120,14 +134,15 @@ function display_question() {
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.style.display = "none";
         }
     };
 }
 
 
-function submit_answer(answer) {
+function submit_answer(option_number) {
+    const answer = document.getElementById("option-" + option_number)
     var power = null;
     for (let i = 0; i < window.powers.length; i++) {
         if (window.powers[i].difficulty === window.current_question.difficulty) {
@@ -142,15 +157,17 @@ function submit_answer(answer) {
             damage: power.damage
         }
     });
+
+    close_pop_up()
 }
 
 function display_correct_answer() {
-
+    document.getElementById("message").textContent = "correct answer";
 }
 
 
 function display_wrong_answer() {
-
+    document.getElementById("message").textContent = "wrong answer";
 }
 
 
@@ -160,27 +177,35 @@ function damage(character, damage) {
 
 
 function update_health() {
-
+    document.getElementById("player-health").textContent = window.player_character.health;
+    document.getElementById("opponent-health").textContent = window.opponent_character.health;
 }
 
 
 function display_timeout() {
+    document.getElementById("message").textContent = "timeout";
+    close_pop_up();
+}
 
+
+function close_pop_up() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
 }
 
 
 function display_win() {
-
+    document.getElementById("message").textContent = "you won";
 }
 
 
 function display_lose() {
-
+    document.getElementById("message").textContent = "you lost";
 }
 
 
 function end_game() {
-
+    window.game_state = "ended"
 }
 
 

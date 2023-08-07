@@ -9,6 +9,16 @@
 </head>
 <body>
 
+<p>turn:</p>
+<p id="turn">N/A</p>
+
+<p id="message"></p>
+
+<p>Your health:</p>
+<p id="player-health"></p>
+<p id="opponent-health"></p>
+
+
 <button id="modal-open">Open Modal</button>
 
 <!-- The Modal -->
@@ -17,10 +27,11 @@
     <!-- Modal content -->
     <div class="modal-content">
         <span class="close">&times;</span>
-        <p id="option-1"></p>
-        <p id="option-2"></p>
-        <p id="option-3"></p>
-        <p id="option-4"></p>
+        <p id="question-prompt"></p>
+        <input id="option-1" type="button" onclick="submit_answer('1')">
+        <input id="option-2" type="button" onclick="submit_answer('2')">
+        <input id="option-3" type="button" onclick="submit_answer('3')">
+        <input id="option-4" type="button" onclick="submit_answer('4')"><
     </div>
 
 </div>
