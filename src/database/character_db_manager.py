@@ -24,3 +24,31 @@ def create_character(character):
 
 
 db = firestore.client()
+
+if __name__ == '__main__':
+    powers = [
+        {
+            "damage": 1,
+            "difficulty": 1,
+            "name": ""  # change this
+        },
+        {
+            "damage": 2,
+            "difficulty": 2,
+            "name": ""  # change this
+        },
+        {
+            "damage": 3,
+            "difficulty": 3,
+            "name": ""  # change this
+        }
+    ]
+
+    name = ""  # you would need to change this name
+    health = 10
+    subject = ""  # change this
+    character = Character(name, powers, f"{name}_image", health, subject)
+    create_character(character)
+    # yea for each character paste the info then run. then change the info and run again. exactly
+    # ok so you need to change the names and subject for each of your characters
+    # then run this file (not the app this file)
