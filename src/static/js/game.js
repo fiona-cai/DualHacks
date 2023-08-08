@@ -6,7 +6,9 @@ window.opponent_character = null;
 window.match = null;
 
 window.username = document.getElementById("username").textContent;
+document.getElementById("username").remove();
 window.match_id = document.getElementById("match_id").textContent;
+document.getElementById("match_id").remove();
 window.turn = true;
 
 window.current_question = null;
