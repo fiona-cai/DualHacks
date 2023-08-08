@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-</body>
-</html>
+{% block title %}Choose Character{% endblock %}
+{% block active %}Choose Your Character{% endblock %}
+
+{% block main %}
+<h1 class="text-center">Choose Your Character</h1>
+{% for character in characters: %}
+<form method="post">
+    <button class="btn btn-primary" type="submit" value="{{character.name}}" name="character">
+        <img src="/static/images/{{ character.images_buckets_name }}" style="max-width: 200px">
+        <br>
+        <p>{{character.name}}</p>
+    </button>
+</form>
+<br>
+{% endfor %}
+{% endblock %}

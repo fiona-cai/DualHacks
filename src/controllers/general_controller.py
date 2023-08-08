@@ -112,4 +112,4 @@ def choose_character():
         return render_template("choose_character.html", characters=characters)
 
     session["character"] = request.form["character"]
-    return render_template("choose_character.html", characters=characters, selected_character=request.form["character"])
+    return redirect("/matches/quick")
