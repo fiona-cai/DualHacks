@@ -3,10 +3,10 @@ from models.power import Power
 
 
 class Character(BaseModel):
-    def __init__(self, name="", powers=[], images_bucket_name="", health=None, subject=""):
+    def __init__(self, name="", powers=[], images_buckets_name="", health=None, subject=""):
         self.name = name
         self.powers = powers
-        self.images_buckets_name = images_bucket_name
+        self.images_buckets_name = images_buckets_name
         self.health = health
         self.subject = subject
 

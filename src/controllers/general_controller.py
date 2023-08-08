@@ -4,6 +4,7 @@ from datetime import datetime
 import sys
 
 import database.users_db_manager as users_db
+import database.character_db_manager as character_db
 from helpers import create_jwt, send_email
 from models.user import User
 from settings import MAIL_DEFAULT_SENDER, SECRET_KEY
@@ -19,6 +20,9 @@ def home():
 
 @general_blueprint.route("/login", methods=["POST", "GET"])
 def login():
+    session.clear()
+    session.permanent = True
+
     if request.method == "GET":
         return render_template("login.html")
 
@@ -29,15 +33,15 @@ def login():
 
     if user is None:
         flash("The username you have entered does not exist, please try again.", "warning")
-        return render_template("/")
+        return render_template("login.html")
 
     if user.password != request.form["password"]:
         flash("You have entered the wrong password, please try again.", "warning")
-        return render_template("/")
+        return render_template("login.html")
 
     session["username"] = username
 
-    return render_template("/")
+    return redirect("/")
 
 
 @general_blueprint.route("/users/<username>/profile")
@@ -98,3 +102,14 @@ def confirm_register(token):
     users_db.update_user(user)
 
     return redirect("/login")
+
+
+@general_blueprint.route("/choose-character", methods=["GET", "POST"])
+def choose_character():
+    characters = character_db.get_all_characters()
+    if request.method == "GET":
+        session["character"] = "Evil Math Professor"
+        return render_template("choose_character.html", characters=characters)
+
+    session["character"] = request.form["character"]
+    return render_template("choose_character.html", characters=characters, selected_character=request.form["character"])

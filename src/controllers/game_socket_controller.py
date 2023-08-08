@@ -12,12 +12,14 @@ def new_connection():
     client_id = request.sid
     client = Client(client_id, server, None)
     server.list_of_all_clients.append(client)
+    print("new client", request.sid)
 
 
 @socket_app.on("message")
 def message_handler(message):
     message = json.loads(message)
     command = message["command"]
+    print(command)
 
     client = list(filter(lambda x: x.code == request.sid, server.list_of_all_clients))[0]
 

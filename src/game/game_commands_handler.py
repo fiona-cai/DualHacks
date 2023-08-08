@@ -2,7 +2,7 @@ import random
 import threading
 import time
 
-from networking import send
+from networking import send_individual
 
 import database.match_db_manager as match_db
 import database.character_db_manager as character_db
@@ -18,26 +18,26 @@ def joining(command, client):
     character = character_db.get_character_by_name(player.character)
 
     match = match_db.get_match_by_id(command["match-id"])
-    match.player_count += 1
-    match_db.update_match(match)
 
     player.client_id = client.code
     match_db.update_player(match.match_id, player)
 
     client.send({"command": {"name": "match-info", "match": match.__dict__}})
     client.send({"command": {"name": "character-info", "character": character.__dict__}})
-    [client.send({"command": {"name": "power-info", "power": power.__dict__}}) for power in character.powers]
+    [client.send({"command": {"name": "power-info", "power": power}}) for power in character.powers]
 
     if match.player_count == 2:
         match.started = True
         match.turn = players[0].username
+        match_db.update_match(match)
         for player in players:
             for player_sender in players:
                 if player.username != player_sender.username:
+                    print("sending opponent")
                     character = character_db.get_character_by_name(player.character)
-                    send({"command": {"name": "opponent-character-info", "character": character.__dict__}}, player_sender.client_id)
-        [send({"command": {"name": "start"}}, player.client_id) for player in players]
-        [send({"command": {"name": "set-turn", "turn": match.turn}}, player.client_id) for player in players]
+                    send_individual({"command": {"name": "opponent-character-info", "character": character.__dict__}}, player_sender.client_id)
+        [send_individual({"command": {"name": "start"}}, player.client_id) for player in players]
+        [send_individual({"command": {"name": "set-turn", "turn": match.turn}}, player.client_id) for player in players]
 
 
 def get_question(command, client):
@@ -55,8 +55,6 @@ def get_question(command, client):
     match.waiting_timeout_id += 1
     match_db.update_match(match)
 
-    threading.Thread(target=time_out, args=[match, client]).start()
-
 
 def submit_answer(command, client):
     match = match_db.get_match_by_id(command["match-id"])
@@ -67,7 +65,7 @@ def submit_answer(command, client):
     match.waiting_timeout_id += 1
     match_db.update_match(match)
 
-    players = match_db.get_match_by_id(match.match_id)
+    players = match_db.get_match_players(match.match_id)
     question = question_db.get_question_by_id(command["question-id"])
 
     if question.answer == command["answer"]:
@@ -80,19 +78,20 @@ def submit_answer(command, client):
                 player.points += 1
             match_db.update_player(match.match_id, player)
 
-        [send({"command": {"name": "action", "action": "attack", "attacking": match.turn, "damage": command["damage"]}},
+        [send_individual({"command": {"name": "action", "action": "attack", "attacking": match.turn, "damage": command["damage"]}},
               player.client_id) for player in players]
 
     else:
         client.send({"command": {"name": "submit-answer-response", "response": "incorrect"}})
-        [send({"command": {"name": "action", "action": "empty"}}, player.client_id) for player in players]
+        [send_individual({"command": {"name": "action", "action": "empty"}}, player.client_id) for player in players]
 
     for player in players:
+        print(player.health, player.username)
         if player.health <= 0:
             end_game(players)
-        match.started = "ended"
-        match_db.update_match(match)
-        return
+            match.started = "ended"
+            match_db.update_match(match)
+            return
 
     switch_turn(match)
 
@@ -106,15 +105,15 @@ def switch_turn(match):
 
     match_db.update_match(match)
 
-    [send({"command": {"name": "set-turn", "turn": match.turn}}, player.client_id) for player in players]
+    [send_individual({"command": {"name": "set-turn", "turn": match.turn}}, player.client_id) for player in players]
 
 
 def end_game(players):
     for player in players:
         if player.health <= 0:
-            send({"command": {"name": "lost-game"}})
+            send_individual({"command": {"name": "lost-game"}}, player.client_id)
         else:
-            send({"command": {"name": "won-game"}})
+            send_individual({"command": {"name": "won-game"}}, player.client_id)
 
 
 def time_out(match_id, timeout_id, client):

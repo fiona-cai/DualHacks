@@ -16,6 +16,15 @@ def get_character_by_name(name):
     return Character(**loaded_character)
 
 
+def get_all_characters():
+    global db
+
+    results = list(db.collection("characters").stream())
+
+    characters = [Character(**result.to_dict()) for result in results]
+    return characters
+
+
 def create_character(character):
     global db
 

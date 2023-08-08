@@ -57,6 +57,6 @@ def get_client_by_code(client_list, code):
     return False
 
 
-def send(msg, client_id):
+def send_individual(msg, client_id):
     msg = json.dumps(msg)
     send(msg, room=client_id)

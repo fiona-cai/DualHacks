@@ -1,4 +1,4 @@
-var socket = io();
+window.socket = io();
 
 window.powers = [];
 window.player_character = null;
@@ -15,11 +15,13 @@ window.game_state = "waiting-for-opponent";
 
 
 function send(entry) {
-    socket.send(JSON.stringify(entry));
+    window.socket.send(JSON.stringify(entry));
 }
 
 socket.on('message', function (msg) {
+
     const command = JSON.parse(msg).command;
+    console.log(command);
 
     switch (command.name) {
         case "match-info":
@@ -27,15 +29,35 @@ socket.on('message', function (msg) {
             break;
         case "character-info":
             window.player_character = command.character;
+            document.getElementById("player-image").src = "/static/images/"+command.character.images_buckets_name;
             break;
         case "opponent-character-info":
             window.opponent_character = command.character;
+            document.getElementById("opponent-image").src = "/static/images/"+command.character.images_buckets_name;
+            break;
+        case "power-info":
+            window.powers.push(command.power);
+            switch (command.power.difficulty) {
+                case 1: {
+                    document.getElementById("power-1").value = command.power.name;
+                    break;
+                }
+                case 2: {
+                    document.getElementById("power-2").value = command.power.name;
+                    break;
+                }
+                case 3: {
+                    document.getElementById("power-3").value = command.power.name;
+                    break;
+                }
+            }
             break;
         case "start":
             start_game();
             break;
         case "set-turn":
-            window.turn = command.turn === window.username;
+            window.turn = command.turn == window.username;
+            update_turn();
             break;
         case "get-question-response":
             switch (command.response) {
@@ -64,20 +86,22 @@ socket.on('message', function (msg) {
                     break;
             }
             break;
-        case "action":
-            if (command.action === "attack") {
+        case "action": {
+            if (command.action == "attack") {
                 if (command.attacking === window.username) {
                     damage(window.opponent_character, command.damage);
                 } else {
                     damage(window.player_character, command.damage);
                 }
+                break;
             }
             break;
-        case "won":
+        }
+        case "won-game":
             display_win();
             end_game();
             break;
-        case "lost":
+        case "lost-game":
             display_lose();
             end_game();
             break;
@@ -97,7 +121,8 @@ function get_questions(difficulty) {
             {
                 name: "get-question",
                 subject: window.player_character.subject,
-                difficulty: difficulty
+                difficulty: difficulty,
+                "match-id": window.match_id
             }
     });
 }
@@ -113,36 +138,24 @@ function display_question() {
 
     for (let i = 0; i < window.current_question.options; i++) {
         const option_id = i + 1;
-        document.getElementById("option-" + option_id.toString()).value = window.current_question.options[i];
+        document.getElementById("option-" + option_id).value = window.current_question.options[i];
     }
+
+    document.getElementById("option-1").value = window.current_question.options[0];
+    document.getElementById("option-2").value = window.current_question.options[1];
+    document.getElementById("option-3").value = window.current_question.options[2];
+    document.getElementById("option-4").value = window.current_question.options[3];
 
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("modal-open");
     var span = document.getElementsByClassName("close")[0];
 
-    // modal.style.display = "block";
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function () {
-        modal.style.display = "block";
-    };
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    };
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    };
+    modal.style.display = "block";
 }
 
 
-function submit_answer(option_number) {
-    const answer = document.getElementById("option-" + option_number)
+function submit_answer(option_id) {
+    const answer = document.getElementById(option_id).value
     var power = null;
     for (let i = 0; i < window.powers.length; i++) {
         if (window.powers[i].difficulty === window.current_question.difficulty) {
@@ -154,7 +167,8 @@ function submit_answer(option_number) {
             name: "submit-answer",
             "question-id": window.current_question.question_id,
             answer: answer,
-            damage: power.damage
+            damage: power.damage,
+            "match-id": window.match_id
         }
     });
 
@@ -173,6 +187,7 @@ function display_wrong_answer() {
 
 function damage(character, damage) {
     character.health -= damage;
+    update_health();
 }
 
 
@@ -208,5 +223,12 @@ function end_game() {
     window.game_state = "ended"
 }
 
+function update_turn() {
+    if (window.turn) {
+        document.getElementById("turn").textContent = "your turn";
+    } else {
+        document.getElementById("turn").textContent = "opponent turn";
+    }
+}
 
-send({command: {name: "joining", username: window.username, match_id: window.match_id}});
+send({command: {name: "joining", username: window.username, "match-id": window.match_id}});
