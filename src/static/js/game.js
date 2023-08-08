@@ -227,9 +227,9 @@ function end_game() {
 
 function update_turn() {
     if (window.turn) {
-        document.getElementById("turn").textContent = "your turn";
+        document.getElementById("turn").textContent = "Your";
     } else {
-        document.getElementById("turn").textContent = "opponent turn";
+        document.getElementById("turn").textContent = "Opponent";
     }
 }
 
