@@ -5,7 +5,7 @@ import sys
 
 import database.users_db_manager as users_db
 import database.character_db_manager as character_db
-from helpers import create_jwt, send_email
+from helpers import create_jwt, send_email, login_required
 from models.user import User
 from settings import MAIL_DEFAULT_SENDER, SECRET_KEY
 
@@ -105,6 +105,7 @@ def confirm_register(token):
 
 
 @general_blueprint.route("/choose-character", methods=["GET", "POST"])
+@login_required
 def choose_character():
     characters = character_db.get_all_characters()
     if request.method == "GET":
