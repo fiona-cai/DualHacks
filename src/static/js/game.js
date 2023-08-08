@@ -229,7 +229,7 @@ function update_turn() {
     if (window.turn) {
         document.getElementById("turn").textContent = "Your";
     } else {
-        document.getElementById("turn").textContent = "Opponent";
+        document.getElementById("turn").textContent = "Opponent's";
     }
 }
 
