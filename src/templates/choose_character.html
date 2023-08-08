@@ -4,15 +4,26 @@
 {% block active %}Choose Your Character{% endblock %}
 
 {% block main %}
-<h1 class="text-center">Choose Your Character</h1>
-{% for character in characters: %}
-<form method="post">
-    <button class="btn btn-primary" type="submit" value="{{character.name}}" name="character">
-        <img src="/static/images/{{ character.images_buckets_name }}" style="max-width: 200px">
-        <br>
-        <p>{{character.name}}</p>
-    </button>
-</form>
-<br>
-{% endfor %}
+<div class="text-center">
+    <h1 class="text-center">Choose Your Character</h1>
+    <b class="text-center">Scroll horizontally for more options</b>
+</div>
+
+
+<div style="display: flex; overflow: auto; white-space: nowrap">
+
+    {% for character in characters: %}
+
+    <form method="post">
+        <button class="btn btn-primary" type="submit" value="{{character.name}}" name="character">
+            <img src="/static/images/{{ character.images_buckets_name }}" style="max-width: 200px; max-height: 200px">
+            <br>
+            <p>{{character.name}}</p>
+        </button>
+    </form>
+    <br>
+    {% endfor %}
+
+</div>
+
 {% endblock %}
